@@ -1,6 +1,6 @@
 {
   "name": "@frostime/solidjs-signal-ref",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A utility for SolidJS, to make it easier to manage state in components",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
