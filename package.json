@@ -1,7 +1,7 @@
 {
   "name": "@frostime/solidjs-signal-ref",
   "version": "0.1.0",
-  "description": "A Vue-like ref utility for SolidJS, to make it easier to manage state in components",
+  "description": "A utility for SolidJS, to make it easier to manage state in components",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
@@ -10,15 +10,14 @@
   ],
   "scripts": {
     "build": "rollup -c",
-    "prepublishOnly": "npm run build",
-    "test": "vite test"
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "solidjs",
     "ref",
     "signal"
   ],
-  "author": "Your Name",
+  "author": "frostime",
   "license": "MIT",
   "peerDependencies": {
     "solid-js": "^1.0.0"
@@ -32,5 +31,9 @@
   },
   "dependencies": {
     "tslib": "^2.7.0"
+  },
+  "private": false,
+  "publishConfig": {
+    "access": "public"
   }
 }
