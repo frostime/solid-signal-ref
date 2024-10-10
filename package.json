@@ -1,7 +1,11 @@
 {
-  "name": "@frostime/solidjs-signal-ref",
-  "version": "0.2.0",
-  "description": "A utility for SolidJS, to make it easier to manage state in components",
+  "name": "@frostime/solid-signal-ref",
+  "version": "1.0.0",
+  "description": "A utility for SolidJS, to make it easier to manage signals in components",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/frostime/solid-signal-ref.git"
+  },
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
@@ -26,7 +30,7 @@
     "@rollup/plugin-node-resolve": "^13.3.0",
     "@rollup/plugin-typescript": "^8.5.0",
     "rollup": "^2.79.2",
-    "solid-js": "^1.9.2",
+    "solid-js": ">=1.8.0",
     "typescript": "^4.9.5"
   },
   "dependencies": {

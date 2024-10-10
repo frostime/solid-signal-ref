@@ -1,54 +1,54 @@
 # @frostime/solid-signal-ref
 
-This is a small utility to simplify the use of signals in solidjs. It allows for easier access and modification of signals.
+这是一个用于简化在 solidjs 中 signal 使用的小工具。能以更加简单的方式访问和修改 signal。
 
-## Installation
+## 安装
 
 ```bash
 npm install @frostime/solid-signal-ref
 ```
 
-## Usage
+## 使用方法
 
-Import the `useSignalRef` function from the package:
+从包中导入 `useSignalRef` 函数：
 
 ```javascript
 import { useSignalRef } from '@frostime/solid-signal-ref';
 ```
 
-1. Create a signal
+1. 创建一个 signal
 
 ```javascript
 const count = useSignalRef<number>(0);
 ```
 
-2. Access the signal's value: two ways
+2. 访问 signal 的值：两种方式
 
 ```ts
-count(); // Accessor style access
-count.value; // Vue style access
-count.signal(); // Use count.signal to directly access the signal object itself
+count(); // Accessor 风格访问
+count.value; // Vue 风格访问
+count.signal(); // 使用 count.signal 直接访问 signal 对象本身
 ```
 
-3. Modify the signal's value
+3. 修改 signal 的值
 
 ```jsx
-count(1); // Pass in a new value
-count.value = 2;  // Vue style modification
-count.update(3);  // Use count.update equivalent to directly accessing the setSignal function
+count(1); // 传入新的 value
+count.value = 2;  // Vue 风格修改
+count.update(3);  // 使用 count.update 等价与直接访问 setSignal 函数
 count.update(v => v * 2);
 ```
 
-4. Derived signal
+4. derived signal
 
 ```jsx
-// Equivalent to const doubled = () => count() * 2;
+//等价于 const doubled = () => count() * 2;
 const doubled = count.derived(c => c * 2);
 
 <p>Doubled count: {doubled()}</p>
 ```
 
-## Usage Example
+## 使用示例
 
 ```tsx
 function App() {
@@ -66,6 +66,7 @@ function App() {
       return (abs / 1000000).toFixed(1) + 'M';
     }
   });
+
 
   return (
     <>

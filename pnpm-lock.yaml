@@ -22,7 +22,7 @@ importers:
         specifier: ^2.79.2
         version: 2.79.2
       solid-js:
-        specifier: ^1.9.2
+        specifier: '>=1.8.0'
         version: 1.9.2
       typescript:
         specifier: ^4.9.5
