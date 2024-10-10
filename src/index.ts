@@ -3,10 +3,9 @@
  * @Author       : frostime
  * @Date         : 2024-10-09 21:09:34
  * @FilePath     : /src/index.ts
- * @LastEditTime : 2024-10-09 21:50:02
+ * @LastEditTime : 2024-10-10 13:39:37
  * @Description  : 
  */
-import useSignalRef from './signal-ref';
 
-export { useSignalRef };
+export { createSignalRef, useSignalRef, wrapSignalRef } from './signal-ref'
 

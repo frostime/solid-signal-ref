@@ -22,37 +22,7 @@ interface SignalRef<T> {
     derived: (fn: (value: T) => any) => Accessor<any>;
 }
 
-/**
- * Create a signal ref with initial value, that significantly simplifies the use of signals in SolidJS.
- * 
- * @Usage
- * 
- * ```js
- * const ref = useSignalRef(0);
- * 
- * // Visit the signal
- * ref(); // 0
- * ref.value; // 0
- * ref.signal(); // 0, ref.signal is equivalent to signal()
- * 
- * // Update the signal
- * ref(1); // 1
- * ref.value = 2; // 2
- * ref.update(3); // 3, ref.update() is equivalent to setSignal()
- * 
- * // Get the raw signal's accessor and setter
- * const [rawSignal, setRawSignal] = ref.raw;
- * 
- * // Derive a new signal from the current signal
- * const derivedSignal = ref.derived((value) => value * 2); //equivelant to () => signal() * 2
- * ```
- * 
- * @param initialValue
- * @returns RefSignal
- */
-const useSignalRef = <T>(initialValue: T): SignalRef<T> => {
-    const [signal, setSignal] = createSignal<T>(initialValue);
-
+const wrapSignalRef = <T>(signal: Accessor<T>, setSignal: Setter<T>): SignalRef<T> => {
     const refSignal = ((value?: T) => {
         if (value !== undefined) {
             setSignal(() => value as T);
@@ -87,6 +57,48 @@ const useSignalRef = <T>(initialValue: T): SignalRef<T> => {
     });
 
     return refSignal;
+}
+
+/**
+ * Create a signal ref with initial value, that significantly simplifies the use of signals in SolidJS.
+ * 
+ * @Usage
+ * 
+ * ```js
+ * const ref = useSignalRef(0);
+ * 
+ * // Visit the signal
+ * ref(); // 0
+ * ref.value; // 0
+ * ref.signal(); // 0, ref.signal is equivalent to signal()
+ * 
+ * // Update the signal
+ * ref(1); // 1
+ * ref.value = 2; // 2
+ * ref.update(3); // 3, ref.update() is equivalent to setSignal()
+ * 
+ * // Get the raw signal's accessor and setter
+ * const [rawSignal, setRawSignal] = ref.raw;
+ * 
+ * // Derive a new signal from the current signal
+ * const derivedSignal = ref.derived((value) => value * 2); //equivelant to () => signal() * 2
+ * ```
+ * 
+ * @param initialValue
+ * @returns RefSignal
+ */
+const useSignalRef = <T>(initialValue: T): SignalRef<T> => {
+    const [signal, setSignal] = createSignal<T>(initialValue);
+
+    const refSignal = wrapSignalRef(signal, setSignal);
+
+    return refSignal;
 };
 
-export default useSignalRef;
+const createSignalRef = useSignalRef;
+
+export {
+    wrapSignalRef,
+    useSignalRef,
+    createSignalRef,
+};

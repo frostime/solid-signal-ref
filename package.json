@@ -1,6 +1,6 @@
 {
   "name": "@frostime/solid-signal-ref",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A utility for SolidJS, to make it easier to manage signals in components",
   "repository": {
     "type": "git",
