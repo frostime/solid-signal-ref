@@ -3,12 +3,12 @@
  * @Author       : frostime
  * @Date         : 2024-10-09 20:32:37
  * @FilePath     : /src/solid-signal-ref/signal-ref.ts
- * @LastEditTime : 2024-10-10 12:09:39
+ * @LastEditTime : 2024-10-10 22:35:11
  * @Description  : 
  */
 import { createSignal, type Setter, type Accessor } from "solid-js";
 
-interface SignalRef<T> {
+interface ISignalRef<T> {
     (): T;
     (value: T): T;
 
@@ -22,14 +22,14 @@ interface SignalRef<T> {
     derived: (fn: (value: T) => any) => Accessor<any>;
 }
 
-const wrapSignalRef = <T>(signal: Accessor<T>, setSignal: Setter<T>): SignalRef<T> => {
+const wrapSignalRef = <T>(signal: Accessor<T>, setSignal: Setter<T>): ISignalRef<T> => {
     const refSignal = ((value?: T) => {
         if (value !== undefined) {
             setSignal(() => value as T);
             return value as T;
         }
         return signal();
-    }) as SignalRef<T>;
+    }) as ISignalRef<T>;
 
     Object.defineProperty(refSignal, 'value', {
         get: signal, // 直接使用 signal 函数作为 getter
@@ -87,7 +87,7 @@ const wrapSignalRef = <T>(signal: Accessor<T>, setSignal: Setter<T>): SignalRef<
  * @param initialValue
  * @returns RefSignal
  */
-const useSignalRef = <T>(initialValue: T): SignalRef<T> => {
+const useSignalRef = <T>(initialValue: T): ISignalRef<T> => {
     const [signal, setSignal] = createSignal<T>(initialValue);
 
     const refSignal = wrapSignalRef(signal, setSignal);
@@ -98,7 +98,8 @@ const useSignalRef = <T>(initialValue: T): SignalRef<T> => {
 const createSignalRef = useSignalRef;
 
 export {
-    wrapSignalRef,
-    useSignalRef,
     createSignalRef,
+    useSignalRef,
+    wrapSignalRef,
+    type ISignalRef,
 };

@@ -1,5 +1,7 @@
 # @frostime/solid-signal-ref
 
+[中文文档](./README_zh_CN.md)
+
 This is a small utility to simplify the use of signals in solidjs. It allows for easier access and modification of signals.
 
 ## Installation

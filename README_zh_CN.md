@@ -1,5 +1,7 @@
 # @frostime/solid-signal-ref
 
+[English Document](./README.md)
+
 这是一个用于简化在 solidjs 中 signal 使用的小工具。能以更加简单的方式访问和修改 signal。
 
 ## 安装

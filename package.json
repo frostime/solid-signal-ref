@@ -1,6 +1,6 @@
 {
   "name": "@frostime/solid-signal-ref",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "A utility for SolidJS, to make it easier to manage signals in components",
   "repository": {
     "type": "git",
@@ -10,7 +10,9 @@
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "README_zh_CN.md"
   ],
   "scripts": {
     "build": "rollup -c",
