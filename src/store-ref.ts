@@ -3,16 +3,17 @@
  * @Author       : frostime
  * @Date         : 2024-10-10 20:58:46
  * @FilePath     : /src/solid-signal-ref/store-ref.ts
- * @LastEditTime : 2024-10-10 22:58:20
+ * @LastEditTime : 2024-12-22 13:02:04
  * @Description  : 
  */
 // 实现对 solid 的 store 的 ref 的封装
-import { createStore, type Store, type SetStoreFunction } from "solid-js/store";
+import { createStore, type Store, type SetStoreFunction, unwrap } from "solid-js/store";
 
 interface IStoreRef<T> {
     (): T;
-    (...args: any): T;
+    (...args: any): void;
 
+    // The result of Accessor<T>, with proxy from solidjs
     value: T;
 
     store: Store<T>;
@@ -20,7 +21,9 @@ interface IStoreRef<T> {
 
     raw: [Store<T>, SetStoreFunction<T>];
 
-    derived: (fn: (store: Store<T>) => any) => any;
+    // Purely unwrapped store value, without proxy
+    unwrap: () => T;
+    derived: <R>(fn: (store: Store<T>) => R) => () => R;
 
 }
 
@@ -36,7 +39,7 @@ const wrapStoreRef = <T extends object>(store: Store<T>, setStore: SetStoreFunct
 
     Object.defineProperty(refStore, 'value', {
         get: () =>store,
-        set: (value: T) => setStore(() => value),
+        set: setStore,
     });
     Object.defineProperty(refStore, 'store', {
         value: store,
@@ -52,8 +55,16 @@ const wrapStoreRef = <T extends object>(store: Store<T>, setStore: SetStoreFunct
         writable: false,
     });
 
+    Object.defineProperty(refStore, 'unwrap', {
+            value: () => {
+                const unwrapped = unwrap(store);
+                return unwrapped;
+            },
+            writable: false,
+        });
+
     Object.defineProperty(refStore, 'derived', {
-        value: (fn: (value: Store<T>) => any): any => {
+        value: <R>(fn: (value: Store<T>) => R): () => R => {
             return () => fn(store);
         },
         writable: false,

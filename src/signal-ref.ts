@@ -2,16 +2,18 @@
  * Copyright (c) 2024 by frostime. All Rights Reserved.
  * @Author       : frostime
  * @Date         : 2024-10-09 20:32:37
- * @FilePath     : /src/solid-signal-ref/signal-ref.ts
- * @LastEditTime : 2024-10-10 22:35:11
+ * @FilePath     : /src/signal-ref.ts
+ * @LastEditTime : 2024-12-22 12:55:03
  * @Description  : 
  */
 import { createSignal, type Setter, type Accessor } from "solid-js";
+import { unwrap } from "solid-js/store";
 
 interface ISignalRef<T> {
     (): T;
-    (value: T): T;
+    (value: T): void;
 
+    // The result of Accessor<T>, with proxy from solidjs
     value: T;
 
     signal: Accessor<T>;
@@ -19,7 +21,9 @@ interface ISignalRef<T> {
 
     raw: [Accessor<T>, Setter<T>];
 
-    derived: (fn: (value: T) => any) => Accessor<any>;
+    // Purely unwrapped signal value, without proxy
+    unwrap: () => T;
+    derived: <R>(fn: (value: T) => R) => () => R;
 }
 
 const wrapSignalRef = <T>(signal: Accessor<T>, setSignal: Setter<T>): ISignalRef<T> => {
@@ -33,7 +37,7 @@ const wrapSignalRef = <T>(signal: Accessor<T>, setSignal: Setter<T>): ISignalRef
 
     Object.defineProperty(refSignal, 'value', {
         get: signal, // 直接使用 signal 函数作为 getter
-        set: (value: T) => setSignal(() => value),
+        set: setSignal,
     });
     Object.defineProperty(refSignal, 'signal', {
         value: signal,
@@ -49,8 +53,16 @@ const wrapSignalRef = <T>(signal: Accessor<T>, setSignal: Setter<T>): ISignalRef
         writable: false,
     });
 
+    Object.defineProperty(refSignal, 'unwrap', {
+        value: () => {
+            const unwrapped = unwrap(signal);
+            return unwrapped();
+        },
+        writable: false,
+    });
+
     Object.defineProperty(refSignal, 'derived', {
-        value: (fn: (value: T) => T): Accessor<any> => {
+        value: <R>(fn: (value: T) => R): () => R => {
             return () => fn(signal());
         },
         writable: false,

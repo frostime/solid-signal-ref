@@ -50,6 +50,12 @@ const doubled = count.derived(c => c * 2);
 <p>Doubled count: {doubled()}</p>
 ```
 
+5. unwrap signal
+
+```jsx
+const value = count.unwrap();
+```
+
 ## Usage Example
 
 ```tsx
